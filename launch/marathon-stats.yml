@@ -1,0 +1,12 @@
+run:
+  type: docker
+env:
+  - MESOS_HOST
+  - MESOS_PORT
+  - MARATHON_HOST
+  - MARATHON_PORT
+  - LOG_MARATHON_TASKS
+  - POLL_INTERVAL
+resources:
+  cpu: .1
+  max_mem: .1
