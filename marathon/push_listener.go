@@ -13,10 +13,10 @@ import (
 type Event struct {
 	EventType  string    `json:eventType`
 	Timestamp  time.Time `json:timestamp`
-	SlaveId    string    `json:slaveId`
-	TaskId     string    `json:taskId`
+	SlaveID    string    `json:slaveId`
+	TaskID     string    `json:taskId`
 	TaskStatus string    `json:taskStatus`
-	AppId      string    `json:appId`
+	AppID      string    `json:appId`
 	Host       string    `json:host`
 	Ports      []int     `json:ports`
 	Version    string    `json:version`
