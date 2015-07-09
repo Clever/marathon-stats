@@ -105,8 +105,7 @@ func initPushListeners(wg *sync.WaitGroup) {
 	}
 
 	for event := range listener.Events() {
-		//marathon.LogEvent(event)
-		fmt.Println("event: ", event)
+		marathon.LogEvent(event)
 	}
 
 	wg.Done()

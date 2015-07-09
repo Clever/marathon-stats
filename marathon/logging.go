@@ -77,3 +77,21 @@ func logApp(app App, logMarathonTasks bool) {
 func normalizeAppID(appID string) string {
 	return strings.Replace(appID[1:], "/", ".", -1)
 }
+
+func LogEvent(event Event) {
+	eventLog := m{
+		"source":    "marathon-event",
+		"title":     event.TaskStatus,
+		"level":     kayvee.Info,
+		"appId":     event.AppID,
+		"timestamp": event.Timestamp,
+		"slaveId":   event.SlaveID,
+		"taskId":    event.TaskID,
+		"host":      event.Host,
+		"ports":     event.Ports,
+		"version":   event.Version,
+		"type":      "count", // This is to auto load metric into influx
+	}
+
+	log.Println(kayvee.Format(eventLog))
+}
