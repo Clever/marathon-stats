@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/Clever/marathon-stats/marathon"
@@ -21,6 +22,8 @@ var (
 	marathonMasterHost string
 	logMarathonTasks   bool
 	pollInterval       time.Duration
+	machineHost        string
+	pushListenerPort   string
 	version            string
 )
 
@@ -42,11 +45,12 @@ func init() {
 	if err != nil {
 		log.Fatalf("Could not parse duration from POLL_INTERVAL: %s", err)
 	}
+
+	machineHost = getEnv("HOST")
+	pushListenerPort = getEnv("PUSH_LISTENER_PORT")
 }
 
 func main() {
-	marathonClient := marathon.NewClient(fmt.Sprintf("%s:%s", marathonMasterHost, marathonMasterPort))
-	mesosClient := mesos.NewClient(fmt.Sprintf("%s:%s", mesosMasterHost, mesosMasterPort))
 	log.Println(kayvee.Format(m{
 		"source":             "marathon-stats",
 		"title":              "startup",
@@ -58,7 +62,22 @@ func main() {
 		"marathonMasterHost": marathonMasterHost,
 		"logMarathonTasks":   logMarathonTasks,
 		"pollInterval":       pollInterval,
+		"machineHost":        machineHost,
+		"pushListenerPort":   pushListenerPort,
 	}))
+
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	go initPollClients(&wg)
+	go initPushListeners(&wg)
+
+	wg.Wait()
+}
+
+func initPollClients(wg *sync.WaitGroup) {
+	marathonClient := marathon.NewClient(fmt.Sprintf("%s:%s", marathonMasterHost, marathonMasterPort))
+	mesosClient := mesos.NewClient(fmt.Sprintf("%s:%s", mesosMasterHost, mesosMasterPort))
 
 	ticker := time.Tick(pollInterval)
 	for _ = range ticker {
@@ -74,6 +93,23 @@ func main() {
 		}
 		mesos.LogState(state)
 	}
+
+	wg.Done()
+}
+
+func initPushListeners(wg *sync.WaitGroup) {
+	listener := marathon.NewListener(machineHost, pushListenerPort)
+	err := listener.Subscribe(fmt.Sprintf("%s:%s", marathonMasterHost, marathonMasterPort))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for event := range listener.Events() {
+		//marathon.LogEvent(event)
+		fmt.Println("event: ", event)
+	}
+
+	wg.Done()
 }
 
 func getEnv(envVar string) string {
