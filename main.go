@@ -23,7 +23,8 @@ var (
 	logMarathonTasks   bool
 	pollInterval       time.Duration
 	containerHost      string
-	containerPort      string
+	externalPort       string // Internal/external ports are relative
+	internalPort       string // to the container this process runs in.
 	version            string
 )
 
@@ -47,7 +48,8 @@ func init() {
 	}
 
 	containerHost = getEnv("HOST")
-	containerPort = "80"
+	externalPort = getEnv("PORT")
+	internalPort = "80" // Matches value in launch/marathon-stat.yml
 }
 
 func main() {
@@ -63,7 +65,8 @@ func main() {
 		"logMarathonTasks":   logMarathonTasks,
 		"pollInterval":       pollInterval,
 		"containerHost":      containerHost,
-		"containerPort":      containerPort,
+		"externalPort":       externalPort,
+		"internalPort":       internalPort,
 	}))
 
 	var wg sync.WaitGroup
@@ -98,7 +101,7 @@ func initPollClients(wg *sync.WaitGroup) {
 }
 
 func initPushListeners(wg *sync.WaitGroup) {
-	listener := marathon.NewListener(containerHost, containerPort)
+	listener := marathon.NewListener(containerHost, internalPort, externalPort)
 	err := listener.Subscribe(fmt.Sprintf("%s:%s", marathonMasterHost, marathonMasterPort))
 	if err != nil {
 		log.Fatal(err)

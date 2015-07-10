@@ -23,19 +23,21 @@ type Event struct {
 }
 
 type Listener struct {
-	events chan Event
-	host   string
-	port   string
+	events       chan Event
+	host         string
+	internalPort string // Internal/external ports are relative
+	externalPort string // to the container this process runs in.
 }
 
-func NewListener(host string, port string) *Listener {
+func NewListener(host string, internalPort, externalPort string) *Listener {
 	listener := &Listener{
-		events: make(chan Event),
-		host:   host,
-		port:   port,
+		events:       make(chan Event),
+		host:         host,
+		internalPort: internalPort,
+		externalPort: externalPort,
 	}
 	http.HandleFunc("/push-listener", listener.handler)
-	go http.ListenAndServe(":"+port, nil)
+	go http.ListenAndServe(":"+internalPort, nil)
 
 	return listener
 }
@@ -62,7 +64,7 @@ func (l *Listener) Events() <-chan Event {
 func (l *Listener) Subscribe(marathonHost string) error {
 	marathonURL := url.URL{Scheme: "http", Host: marathonHost, Path: "/v2/eventSubscriptions"}
 	q := marathonURL.Query()
-	q.Set("callbackUrl", fmt.Sprintf("http://%s:%s/push-listener", l.host, l.port))
+	q.Set("callbackUrl", fmt.Sprintf("http://%s:%s/push-listener", l.host, l.externalPort))
 	marathonURL.RawQuery = q.Encode()
 
 	res, err := http.Post(marathonURL.String(), "application/json", strings.NewReader(""))
