@@ -47,7 +47,7 @@ func init() {
 	}
 
 	containerHost = getEnv("HOST")
-	containerPort = getEnv("PORT")
+	containerPort = "80"
 }
 
 func main() {

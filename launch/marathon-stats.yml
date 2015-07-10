@@ -10,3 +10,7 @@ env:
 resources:
   cpu: .1
   max_mem: .1
+expose:                # list of ports to expose
+  - name: http         # identifier for this port mapping
+    port: 80           # port to map to inside the container
+    bind: 80           # port to bind the reverse proxy to (for the world)
