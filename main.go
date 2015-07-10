@@ -22,8 +22,8 @@ var (
 	marathonMasterHost string
 	logMarathonTasks   bool
 	pollInterval       time.Duration
-	machineHost        string
-	pushListenerPort   string
+	containerHost      string
+	containerPort      string
 	version            string
 )
 
@@ -46,8 +46,8 @@ func init() {
 		log.Fatalf("Could not parse duration from POLL_INTERVAL: %s", err)
 	}
 
-	machineHost = getEnv("HOST")
-	pushListenerPort = getEnv("PUSH_LISTENER_PORT")
+	containerHost = getEnv("HOST")
+	containerPort = getEnv("PORT")
 }
 
 func main() {
@@ -62,8 +62,8 @@ func main() {
 		"marathonMasterHost": marathonMasterHost,
 		"logMarathonTasks":   logMarathonTasks,
 		"pollInterval":       pollInterval,
-		"machineHost":        machineHost,
-		"pushListenerPort":   pushListenerPort,
+		"containerHost":      containerHost,
+		"containerPort":      containerPort,
 	}))
 
 	var wg sync.WaitGroup
@@ -98,7 +98,7 @@ func initPollClients(wg *sync.WaitGroup) {
 }
 
 func initPushListeners(wg *sync.WaitGroup) {
-	listener := marathon.NewListener(machineHost, pushListenerPort)
+	listener := marathon.NewListener(containerHost, containerPort)
 	err := listener.Subscribe(fmt.Sprintf("%s:%s", marathonMasterHost, marathonMasterPort))
 	if err != nil {
 		log.Fatal(err)
