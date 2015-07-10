@@ -62,7 +62,7 @@ func (l *Listener) Events() <-chan Event {
 func (l *Listener) Subscribe(marathonHost string) error {
 	marathonURL := url.URL{Scheme: "http", Host: marathonHost, Path: "/v2/eventSubscriptions"}
 	q := marathonURL.Query()
-	q.Set("callback", fmt.Sprintf("%s:%s/push-listener", l.host, l.port))
+	q.Set("callbackUrl", fmt.Sprintf("http://%s:%s/push-listener", l.host, l.port))
 	marathonURL.RawQuery = q.Encode()
 
 	res, err := http.Post(marathonURL.String(), "application/json", strings.NewReader(""))
