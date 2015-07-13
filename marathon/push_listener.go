@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 )
 
@@ -81,7 +82,7 @@ func (l *Listener) unsubscribe(marathonHost, callback string) error {
 	return nil
 }
 
-func (l *Listener) unsubscribeAll(marathonHost string) error {
+func (l *Listener) unsubscribeStatCallbacks(marathonHost string) error {
 	marathonURL := url.URL{Scheme: "http", Host: marathonHost, Path: "/v2/eventSubscriptions"}
 
 	res, err := http.Get(marathonURL.String())
@@ -103,6 +104,10 @@ func (l *Listener) unsubscribeAll(marathonHost string) error {
 	}
 
 	for _, callback := range data.Callbacks {
+		if !strings.Contains(callback, "/ms-push-listener") { // Ignore non-marathon-stat urls
+			continue
+		}
+
 		if err = l.unsubscribe(marathonHost, callback); err != nil {
 			return err
 		}
@@ -112,13 +117,13 @@ func (l *Listener) unsubscribeAll(marathonHost string) error {
 }
 
 func (l *Listener) Subscribe(marathonHost string) error {
-	if err := l.unsubscribeAll(marathonHost); err != nil {
+	if err := l.unsubscribeStatCallbacks(marathonHost); err != nil {
 		return err
 	}
 
 	marathonURL := url.URL{Scheme: "http", Host: marathonHost, Path: "/v2/eventSubscriptions"}
 	q := marathonURL.Query()
-	q.Set("callbackUrl", fmt.Sprintf("http://%s:%s/push-listener", l.host, l.externalPort))
+	q.Set("callbackUrl", fmt.Sprintf("http://%s:%s/ms-push-listener", l.host, l.externalPort))
 	marathonURL.RawQuery = q.Encode()
 
 	res, err := http.Post(marathonURL.String(), "application/json", nil)
