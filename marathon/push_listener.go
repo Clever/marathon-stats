@@ -60,7 +60,62 @@ func (l *Listener) Events() <-chan Event {
 	return l.events
 }
 
+func (l *Listener) unsubscribe(marathonHost, callback string) error {
+	marathonURL := url.URL{Scheme: "http", Host: marathonHost, Path: "/v2/eventSubscriptions"}
+	q := marathonURL.Query()
+	q.Set("callbackUrl", callback)
+	marathonURL.RawQuery = q.Encode()
+
+	req, err := http.NewRequest("DELETE", marathonURL.String(), nil)
+	res, err := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	if err != nil {
+		return err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		errmsg := "Bad status code while unsubscribing marathon event url: %s -- %s"
+		return fmt.Errorf(errmsg, res.Status, callback)
+	}
+
+	return nil
+}
+
+func (l *Listener) unsubscribeAll(marathonHost string) error {
+	marathonURL := url.URL{Scheme: "http", Host: marathonHost, Path: "/v2/eventSubscriptions"}
+
+	res, err := http.Get(marathonURL.String())
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return fmt.Errorf("Bad status code while unsubscribing marathon event urls: %s", res.Status)
+	}
+
+	var data struct {
+		Callbacks []string `json:"callbackUrls"`
+	}
+	decoder := json.NewDecoder(res.Body)
+	if err := decoder.Decode(&data); err != nil {
+		return err
+	}
+
+	for _, callback := range data.Callbacks {
+		if err = l.unsubscribe(marathonHost, callback); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (l *Listener) Subscribe(marathonHost string) error {
+	if err := l.unsubscribeAll(marathonHost); err != nil {
+		return err
+	}
+
 	marathonURL := url.URL{Scheme: "http", Host: marathonHost, Path: "/v2/eventSubscriptions"}
 	q := marathonURL.Query()
 	q.Set("callbackUrl", fmt.Sprintf("http://%s:%s/push-listener", l.host, l.externalPort))
