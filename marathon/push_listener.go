@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"net/url"
-	"strings"
 	"time"
 )
 
@@ -67,7 +66,7 @@ func (l *Listener) Subscribe(marathonHost string) error {
 	q.Set("callbackUrl", fmt.Sprintf("http://%s:%s/push-listener", l.host, l.externalPort))
 	marathonURL.RawQuery = q.Encode()
 
-	res, err := http.Post(marathonURL.String(), "application/json", strings.NewReader(""))
+	res, err := http.Post(marathonURL.String(), "application/json", nil)
 	if err != nil {
 		return err
 	}
