@@ -73,7 +73,7 @@ func (l *Listener) Subscribe(marathonHost string) error {
 	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("Bad status code while subscribing to marathon events: " + res.Status)
+		return fmt.Errorf("Bad status code while subscribing to marathon events: %s", res.Status)
 	}
 
 	var data map[string]interface{}
