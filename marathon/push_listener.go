@@ -69,10 +69,10 @@ func (l *Listener) unsubscribe(marathonHost, callback string) error {
 
 	req, err := http.NewRequest("DELETE", marathonURL.String(), nil)
 	res, err := http.DefaultClient.Do(req)
-	defer res.Body.Close()
 	if err != nil {
 		return err
 	}
+	defer res.Body.Close()
 
 	if res.StatusCode != http.StatusOK {
 		errmsg := "Bad status code while unsubscribing marathon event url: %s -- %s"
