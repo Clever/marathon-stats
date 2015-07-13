@@ -11,15 +11,15 @@ import (
 )
 
 type Event struct {
-	EventType  string    `json:eventType`
-	Timestamp  time.Time `json:timestamp`
-	SlaveID    string    `json:slaveId`
-	TaskID     string    `json:taskId`
-	TaskStatus string    `json:taskStatus`
-	AppID      string    `json:appId`
-	Host       string    `json:host`
-	Ports      []int     `json:ports`
-	Version    string    `json:version`
+	EventType  string    `json:"eventType"`
+	Timestamp  time.Time `json:"timestamp"`
+	SlaveID    string    `json:"slaveId"`
+	TaskID     string    `json:"taskId"`
+	TaskStatus string    `json:"taskStatus"`
+	AppID      string    `json:"appId"`
+	Host       string    `json:"host"`
+	Ports      []int     `json:"ports"`
+	Version    string    `json:"version"`
 }
 
 type Listener struct {
