@@ -136,12 +136,6 @@ func (l *Listener) Subscribe(marathonHost string) error {
 		return fmt.Errorf("Bad status code while subscribing to marathon events: %s", res.Status)
 	}
 
-	var data map[string]interface{}
-	decoder := json.NewDecoder(res.Body)
-	if err := decoder.Decode(&data); err != nil {
-		return err
-	}
-
 
 	return nil
 }
