@@ -23,6 +23,7 @@ type Event struct {
 }
 
 type Listener struct {
+	path         string
 	events       chan Event
 	host         string
 	internalPort string // Internal/external ports are relative
@@ -31,12 +32,13 @@ type Listener struct {
 
 func NewListener(host string, internalPort, externalPort string) *Listener {
 	listener := &Listener{
+		path:         "/ms-push-listener",
 		events:       make(chan Event),
 		host:         host,
 		internalPort: internalPort,
 		externalPort: externalPort,
 	}
-	http.HandleFunc("/push-listener", listener.handler)
+	http.HandleFunc(listener.path, listener.handler)
 	go http.ListenAndServe(":"+internalPort, nil)
 
 	return listener
@@ -104,7 +106,7 @@ func (l *Listener) unsubscribeStatCallbacks(marathonHost string) error {
 	}
 
 	for _, callback := range data.Callbacks {
-		if !strings.Contains(callback, "/ms-push-listener") { // Ignore non-marathon-stat urls
+		if !strings.Contains(callback, l.path) { // Ignore non-marathon-stat urls
 			continue
 		}
 
@@ -123,7 +125,7 @@ func (l *Listener) Subscribe(marathonHost string) error {
 
 	marathonURL := url.URL{Scheme: "http", Host: marathonHost, Path: "/v2/eventSubscriptions"}
 	q := marathonURL.Query()
-	q.Set("callbackUrl", fmt.Sprintf("http://%s:%s/ms-push-listener", l.host, l.externalPort))
+	q.Set("callbackUrl", fmt.Sprintf("http://%s:%s%s", l.host, l.externalPort, l.path))
 	marathonURL.RawQuery = q.Encode()
 
 	res, err := http.Post(marathonURL.String(), "application/json", nil)
@@ -135,7 +137,6 @@ func (l *Listener) Subscribe(marathonHost string) error {
 	if res.StatusCode != http.StatusOK {
 		return fmt.Errorf("Bad status code while subscribing to marathon events: %s", res.Status)
 	}
-
 
 	return nil
 }
