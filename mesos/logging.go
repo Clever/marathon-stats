@@ -10,19 +10,21 @@ type m map[string]interface{}
 
 func LogState(state State) {
 	stateLog := m{
-		"source":         "marathon-stats",
-		"title":          "mesos-state",
-		"level":          kayvee.Info,
-		"finished_tasks": state.FinishedTasks,
-		"hostname":       state.Hostname,
-		"id":             state.ID,
-		"killed_tasks":   state.KilledTasks,
-		"lost_tasks":     state.LostTasks,
-		"staged_tasks":   state.StagedTasks,
-		"started_tasks":  state.StartedTasks,
-		"version":        state.Version,
-		"start_time":     state.StartTime,
-		"type":           "gauge", // This is to auto load metric into influx
+		"source":             "marathon-stats",
+		"title":              "mesos-state",
+		"level":              kayvee.Info,
+		"activated_slaves":   state.ActivatedSlaves,
+		"deactivated_slaves": state.DeactivatedSlaves,
+		"finished_tasks":     state.FinishedTasks,
+		"hostname":           state.Hostname,
+		"id":                 state.ID,
+		"killed_tasks":       state.KilledTasks,
+		"lost_tasks":         state.LostTasks,
+		"staged_tasks":       state.StagedTasks,
+		"started_tasks":      state.StartedTasks,
+		"version":            state.Version,
+		"start_time":         state.StartTime,
+		"type":               "gauge", // This is to auto load metric into influx
 	}
 	// add up resource counts from slaves
 	totalCPU := 0.0
