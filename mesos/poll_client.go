@@ -78,12 +78,17 @@ type Task struct {
 	ExecutorID  string    `json:"executor_id"`
 	FrameworkID string    `json:"framework_id"`
 	ID          string    `json:"id"`
-	Labels      []string  `json:"labels"`
+	Labels      []Label   `json:"labels"`
 	Name        string    `json:"name"`
 	Resources   Resources `json:"resources"`
 	SlaveID     string    `json:"slave_id"`
 	State       string    `json:"state"`
 	Statuses    []Status  `json:"statuses"`
+}
+
+type Label struct {
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 type Status struct {
@@ -107,6 +112,15 @@ func (c *Client) GetState() (State, error) {
 	stateURL := url.URL{Scheme: "http", Host: c.host, Path: "/state.json"}
 	var decodedResponse State
 	err := c.do(stateURL, &decodedResponse)
+	if err != nil {
+		return decodedResponse, err
+	}
+	// strip "master@" from beginning of leader
+	leader := decodedResponse.Leader[7:]
+
+	leaderURL := url.URL{Scheme: "http", Host: leader, Path: "/state.json"}
+	err = c.do(leaderURL, &decodedResponse)
+
 	return decodedResponse, err
 }
 
