@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 type State struct {
@@ -116,7 +117,7 @@ func (c *Client) GetState() (State, error) {
 		return decodedResponse, err
 	}
 	// strip "master@" from beginning of leader
-	leader := decodedResponse.Leader[7:]
+	leader := strings.TrimPrefix(decodedResponse.Leader, "master@")
 
 	leaderURL := url.URL{Scheme: "http", Host: leader, Path: "/state.json"}
 	err = c.do(leaderURL, &decodedResponse)
