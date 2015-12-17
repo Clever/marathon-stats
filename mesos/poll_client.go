@@ -57,7 +57,7 @@ type Resources struct {
 type Framework struct {
 	Active           bool        `json:"active"`
 	Checkpoint       bool        `json:"checkpoint"`
-	CompletedTasks   []Task      `json:"checkpoint"`
+	CompletedTasks   []Task      `json:"completed_tasks"`
 	FailoverTimeout  int64       `json:"failover_timeout"`
 	Hostname         string      `json:"hostname"`
 	ID               string      `json:"id"`
