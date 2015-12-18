@@ -28,7 +28,7 @@ func LogState(state State) {
 	}
 	// add up resource counts from slaves
 	totalCPU := 0.0
-	totalMem := int64(0)
+	totalMem := 0.0
 	for _, slave := range state.Slaves {
 		r := slave.Resources
 		totalCPU += r.CPUs
@@ -37,9 +37,9 @@ func LogState(state State) {
 
 	// actual used/offer amounts come from the framework(s)
 	usedCPU := 0.0
-	usedMem := int64(0)
+	usedMem := 0.0
 	offeredCPU := 0.0
-	offeredMem := int64(0)
+	offeredMem := 0.0
 	for _, framework := range state.Frameworks {
 		for _, offer := range framework.Offers {
 			offeredCPU += offer.CPUs

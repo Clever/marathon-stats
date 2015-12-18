@@ -50,7 +50,7 @@ type Slave struct {
 type Resources struct {
 	CPUs  float64 `json:"cpus"`
 	Disk  int64   `json:"disk"`
-	Mem   int64   `json:"mem"`
+	Mem   float64 `json:"mem"`
 	Ports string  `json:"ports"`
 }
 
