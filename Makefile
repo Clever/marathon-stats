@@ -32,3 +32,6 @@ endif
 
 build:
 	@go build -ldflags "-X main.Version=$(cat VERSION)"
+
+run: build
+	HOST=localhost PORT=8082 ./marathon-stats
