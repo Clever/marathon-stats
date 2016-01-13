@@ -8,12 +8,13 @@ import (
 	"sync"
 	"time"
 
+	kv "gopkg.in/Clever/kayvee-go.v2/logger"
+
 	"github.com/Clever/marathon-stats/marathon"
 	"github.com/Clever/marathon-stats/mesos"
-	"gopkg.in/clever/kayvee-go.v2"
 )
 
-type m map[string]interface{}
+var kvlog = kv.New("marathon-stats")
 
 var (
 	mesosMasterPort    string
@@ -53,10 +54,7 @@ func init() {
 }
 
 func main() {
-	log.Println(kayvee.Format(m{
-		"source":             "marathon-stats",
-		"title":              "startup",
-		"level":              kayvee.Info,
+	kvlog.InfoD("startup", kv.M{
 		"version":            version,
 		"mesosMasterPort":    mesosMasterPort,
 		"mesosMasterHost":    mesosMasterHost,
@@ -67,7 +65,7 @@ func main() {
 		"containerHost":      containerHost,
 		"externalPort":       externalPort,
 		"internalPort":       internalPort,
-	}))
+	})
 
 	var wg sync.WaitGroup
 	wg.Add(2)
