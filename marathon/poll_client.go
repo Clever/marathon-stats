@@ -9,24 +9,24 @@ import (
 type App struct {
 	ID                    string            `json:"id"`
 	Env                   map[string]string `json:"env"`
-	Instances             int64             `json:"instances"`
+	Instances             int               `json:"instances"`
 	Cpus                  float64           `json:"cpus"`
 	Mem                   float64           `json:"mem"`
 	Disk                  float64           `json:"disk"`
 	Constraints           []Constraint      `json:"constraints"`
-	Ports                 []int32           `json:"ports"`
+	Ports                 []int             `json:"ports"`
 	RequirePorts          bool              `json:"requirePorts"`
 	BackoffSeconds        float64           `json:"backoffSeconds"`
 	BackoffFactor         float64           `json:"backoffFactor"`
-	MaxLaunchDelaySeconds int64             `json:"maxLaunchDelaySeconds"`
+	MaxLaunchDelaySeconds int               `json:"maxLaunchDelaySeconds"`
 	Container             Container         `json:"container"`
 	HealthChecks          []HealthCheck     `json:"healthChecks"`
 	Labels                map[string]string `json:"labels"`
 	Version               string            `json:"version"`
-	TasksStaged           int64             `json:"tasksStaged"`
-	TasksRunning          int64             `json:"tasksRunning"`
-	TasksHealthy          int64             `json:"tasksHealthy"`
-	TasksUnhealthy        int64             `json:"tasksUnhealthy"`
+	TasksStaged           int               `json:"tasksStaged"`
+	TasksRunning          int               `json:"tasksRunning"`
+	TasksHealthy          int               `json:"tasksHealthy"`
+	TasksUnhealthy        int               `json:"tasksUnhealthy"`
 	Deployments           []Deployment      `json:"deployments"`
 	Tasks                 []Task            `json:"tasks"`
 }
@@ -51,8 +51,8 @@ type Deployment struct {
 	Steps          []DeployAction `json:"steps"`
 	CurrentActions []DeployAction `json:"currentActions"`
 	Version        string         `json:"version"`
-	CurrentStep    int64          `json:"currentStep"`
-	TotalSteps     int64          `json:"totalSteps"`
+	CurrentStep    int            `json:"currentStep"`
+	TotalSteps     int            `json:"totalSteps"`
 }
 
 type DeployAction struct {
@@ -63,11 +63,11 @@ type DeployAction struct {
 type HealthCheck struct {
 	Path                   string `json:"path"`
 	Protocol               string `json:"protocol"`
-	PortIndex              int64  `json:"portIndex"`
-	GracePeriodSeconds     int64  `json:"gracePeriodSeconds"`
-	IntervalSeconds        int64  `json:"intervalSeconds"`
-	TimeoutSeconds         int64  `json:"timeoutSeconds"`
-	MaxConsecutiveFailures int64  `json:"maxConsecutiveFailures"`
+	PortIndex              int    `json:"portIndex"`
+	GracePeriodSeconds     int    `json:"gracePeriodSeconds"`
+	IntervalSeconds        int    `json:"intervalSeconds"`
+	TimeoutSeconds         int    `json:"timeoutSeconds"`
+	MaxConsecutiveFailures int    `json:"maxConsecutiveFailures"`
 }
 
 type Docker struct {
@@ -84,20 +84,20 @@ type DockerParameter struct {
 }
 
 type PortMapping struct {
-	ContainerPort int32 `json:"containerPort"`
-	HostPort      int32 `json:"hostPort"`
-	ServicePort   int32 `json:"servicePort"`
+	ContainerPort int `json:"containerPort"`
+	HostPort      int `json:"hostPort"`
+	ServicePort   int `json:"servicePort"`
 }
 
 type Task struct {
 	AppID              string              `json:"appId"`
 	ID                 string              `json:"id"`
 	Host               string              `json:"host"`
-	Ports              []int32             `json:"ports"`
+	Ports              []int               `json:"ports"`
 	StartedAt          string              `json:"startedAt"`
 	StagedAt           string              `json:"stagedAt"`
 	Version            string              `json:"version"`
-	ServicePorts       []int32             `json:"servicePorts"`
+	ServicePorts       []int               `json:"servicePorts"`
 	HealthCheckResults []HealthCheckResult `json:"healthCheckResults"`
 }
 
@@ -107,7 +107,7 @@ type HealthCheckResult struct {
 	LastSuccess         string `json:"lastSuccess"`
 	LastFailure         string `json:"lastFailure"`
 	LastFailureCause    string `json:"lastFailureCause"`
-	ConsecutiveFailures int64  `json:"consecutiveFailures"`
+	ConsecutiveFailures int    `json:"consecutiveFailures"`
 	Alive               bool   `json:"Alive"`
 }
 

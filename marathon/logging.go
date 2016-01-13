@@ -12,9 +12,9 @@ type m map[string]interface{}
 
 func LogState(apps []App, logMarathonTasks bool) {
 	var summary struct {
-		appCount     int64
-		runningCount int64
-		stagedCount  int64
+		appCount     int
+		runningCount int
+		stagedCount  int
 	}
 	for _, app := range apps {
 		summary.appCount++
