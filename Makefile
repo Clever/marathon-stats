@@ -31,4 +31,4 @@ endif
 	@$(GOPATH)/bin/errcheck $@
 
 build:
-	@go build -ldflags "-X main.Version $(cat VERSION)"
+	@go build -ldflags "-X main.Version=$(cat VERSION)"
