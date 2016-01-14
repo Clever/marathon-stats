@@ -2,19 +2,18 @@ package marathon
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
-	"gopkg.in/clever/kayvee-go.v2"
+	kv "gopkg.in/Clever/kayvee-go.v2/logger"
 )
 
-type m map[string]interface{}
+var kvlog = kv.New("marathon-stats")
 
 func LogState(apps []App, logMarathonTasks bool) {
 	var summary struct {
-		appCount     int64
-		runningCount int64
-		stagedCount  int64
+		appCount     int
+		runningCount int
+		stagedCount  int
 	}
 	for _, app := range apps {
 		summary.appCount++
@@ -22,23 +21,16 @@ func LogState(apps []App, logMarathonTasks bool) {
 		summary.stagedCount += app.TasksStaged
 		logApp(app, logMarathonTasks)
 	}
-	summaryLog := m{
-		"source":       "marathon-stats",
-		"title":        "marathon-summary",
+	summaryLog := kv.M{
 		"totalApps":    summary.appCount,
 		"runningTasks": summary.runningCount,
 		"stagedTasks":  summary.stagedCount,
-		"type":         "gauge",
 	}
-	log.Println(kayvee.Format(summaryLog))
+	kvlog.GaugeIntD("marathon-summary", summary.appCount, summaryLog)
 }
 
 func logApp(app App, logMarathonTasks bool) {
-	normalizedAppID := normalizeAppID(app.ID)
-	appLog := m{
-		"source":         "marathon-stats",
-		"title":          fmt.Sprintf("marathon-apps.%s", normalizedAppID),
-		"level":          kayvee.Info,
+	appLog := kv.M{
 		"appId":          app.ID,
 		"instances":      app.Instances,
 		"cpus":           app.Cpus,
@@ -50,27 +42,24 @@ func logApp(app App, logMarathonTasks bool) {
 		"tasksHealthy":   app.TasksHealthy,
 		"tasksRunning":   app.TasksRunning,
 		"tasksUnhealthy": app.TasksUnhealthy,
-		"type":           "gauge", // This is to auto load metric into influx
 	}
-	log.Println(kayvee.Format(appLog))
+	title := fmt.Sprintf("marathon-apps.%s", normalizeAppID(app.ID))
+	kvlog.GaugeIntD(title, app.Instances, appLog)
 
 	if !logMarathonTasks {
 		return
 	}
 
 	for _, task := range app.Tasks {
-		taskLog := m{
-			"source":    "marathon-stats",
-			"title":     fmt.Sprintf("marathon-tasks.%s", task.ID),
-			"level":     kayvee.Info,
+		taskLog := kv.M{
 			"appId":     task.AppID,
 			"id":        task.ID,
 			"startedAt": task.StartedAt,
 			"stagedAt":  task.StagedAt,
 			"version":   task.Version,
-			"type":      "gauge", // This is to auto load metric into influx
 		}
-		log.Println(kayvee.Format(taskLog))
+		title := fmt.Sprintf("marathon-tasks.%s", task.ID)
+		kvlog.CounterD(title, 1, taskLog)
 	}
 }
 
@@ -79,10 +68,7 @@ func normalizeAppID(appID string) string {
 }
 
 func LogEvent(event Event) {
-	eventLog := m{
-		"source":    "marathon-event",
-		"title":     event.TaskStatus,
-		"level":     kayvee.Info,
+	eventLog := kv.M{
 		"appId":     event.AppID,
 		"timestamp": event.Timestamp,
 		"slaveId":   event.SlaveID,
@@ -90,8 +76,6 @@ func LogEvent(event Event) {
 		"host":      event.Host,
 		"ports":     event.Ports,
 		"version":   event.Version,
-		"type":      "count", // This is to auto load metric into influx
 	}
-
-	log.Println(kayvee.Format(eventLog))
+	kvlog.CounterD("marathon-event", 1, eventLog)
 }

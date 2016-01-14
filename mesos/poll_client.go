@@ -8,31 +8,31 @@ import (
 )
 
 type State struct {
-	ActivatedSlaves int64   `json:"activated_slaves"`
+	ActivatedSlaves int     `json:"activated_slaves"`
 	BuildDate       string  `json:"build_date"`
 	BuildTime       float64 `json:"build_time"`
 	BuildUser       string  `json:"build_user"`
 	// CompletedFrameworks    []Something       `json:"completed_frameworks"`
-	DeactivatedSlaves int64             `json:"deactivated_slaves"`
+	DeactivatedSlaves int               `json:"deactivated_slaves"`
 	ElectedTime       float64           `json:"elected_time"`
-	FailedTasks       int64             `json:"failed_tasks"`
-	FinishedTasks     int64             `json:"finished_tasks"`
+	FailedTasks       int               `json:"failed_tasks"`
+	FinishedTasks     int               `json:"finished_tasks"`
 	Flags             map[string]string `json:"flags"`
 	Frameworks        []Framework       `json:"frameworks"`
 	GitSHA            string            `json:"git_sha"`
 	GitTag            string            `json:"git_tag"`
 	Hostname          string            `json:"hostname"`
 	ID                string            `json:"id"`
-	KilledTasks       int64             `json:"killed_tasks"`
+	KilledTasks       int               `json:"killed_tasks"`
 	Leader            string            `json:"leader"`
 	LogDir            string            `json:"log_dir"`
-	LostTasks         int64             `json:"lost_tasks"`
+	LostTasks         int               `json:"lost_tasks"`
 	// OrphanTasks            []Something       `json:"orphan_tasks"`
 	PID          string  `json:"pid"`
 	Slaves       []Slave `json:"slaves"`
-	StagedTasks  int64   `json:"staged_tasks"`
+	StagedTasks  int     `json:"staged_tasks"`
 	StartTime    float64 `json:"start_time"`
-	StartedTasks int64   `json:"started_tasks"`
+	StartedTasks int     `json:"started_tasks"`
 	// UnregisteredFrameworks []Something       `json:"unregistered_frameworks"`
 	Version string `json:"version"`
 }
@@ -49,7 +49,7 @@ type Slave struct {
 
 type Resources struct {
 	CPUs  float64 `json:"cpus"`
-	Disk  int64   `json:"disk"`
+	Disk  int     `json:"disk"`
 	Mem   float64 `json:"mem"`
 	Ports string  `json:"ports"`
 }
@@ -58,7 +58,7 @@ type Framework struct {
 	Active           bool        `json:"active"`
 	Checkpoint       bool        `json:"checkpoint"`
 	CompletedTasks   []Task      `json:"completed_tasks"`
-	FailoverTimeout  int64       `json:"failover_timeout"`
+	FailoverTimeout  int         `json:"failover_timeout"`
 	Hostname         string      `json:"hostname"`
 	ID               string      `json:"id"`
 	Name             string      `json:"name"`

@@ -1,18 +1,13 @@
 package mesos
 
 import (
-	"log"
-
-	"gopkg.in/clever/kayvee-go.v2"
+	kv "gopkg.in/Clever/kayvee-go.v2/logger"
 )
 
-type m map[string]interface{}
+var kvlog = kv.New("marathon-stats")
 
 func LogState(state State) {
-	stateLog := m{
-		"source":             "marathon-stats",
-		"title":              "mesos-state",
-		"level":              kayvee.Info,
+	stateLog := kv.M{
 		"activated_slaves":   state.ActivatedSlaves,
 		"deactivated_slaves": state.DeactivatedSlaves,
 		"finished_tasks":     state.FinishedTasks,
@@ -24,7 +19,6 @@ func LogState(state State) {
 		"started_tasks":      state.StartedTasks,
 		"version":            state.Version,
 		"start_time":         state.StartTime,
-		"type":               "gauge", // This is to auto load metric into influx
 	}
 	// add up resource counts from slaves
 	totalCPU := 0.0
@@ -55,5 +49,5 @@ func LogState(state State) {
 	stateLog["total_cpu"] = totalCPU
 	stateLog["total_mem"] = totalMem
 
-	log.Println(kayvee.Format(stateLog))
+	kvlog.GaugeIntD("mesos-state", state.ActivatedSlaves, stateLog)
 }
