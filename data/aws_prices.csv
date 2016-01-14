@@ -1,0 +1,45 @@
+t2.nano,1,Variable,0.5,EBS Only,$0.0085 per Hour
+t2.micro,1,Variable,1,EBS Only,$0.017 per Hour
+t2.small,1,Variable,2,EBS Only,$0.034 per Hour
+t2.medium,2,Variable,4,EBS Only,$0.068 per Hour
+t2.large,2,Variable,8,EBS Only,$0.136 per Hour
+m4.large,2,6.5,8,EBS Only,$0.14 per Hour
+m4.xlarge,4,13,16,EBS Only,$0.279 per Hour
+m4.2xlarge,8,26,32,EBS Only,$0.559 per Hour
+m4.4xlarge,16,53.5,64,EBS Only,$1.117 per Hour
+m4.10xlarge,40,124.5,160,EBS Only,$2.793 per Hour
+m3.medium,1,3,3.75,1 x 4 SSD,$0.077 per Hour
+m3.large,2,6.5,7.5,1 x 32 SSD,$0.154 per Hour
+m3.xlarge,4,13,15,2 x 40 SSD,$0.308 per Hour
+m3.2xlarge,8,26,30,2 x 80 SSD,$0.616 per Hour
+c4.large,2,8,3.75,EBS Only,$0.131 per Hour
+c4.xlarge,4,16,7.5,EBS Only,$0.262 per Hour
+c4.2xlarge,8,31,15,EBS Only,$0.524 per Hour
+c4.4xlarge,16,62,30,EBS Only,$1.049 per Hour
+c4.8xlarge,36,132,60,EBS Only,$2.098 per Hour
+c3.large,2,7,3.75,2 x 16 SSD,$0.12 per Hour
+c3.xlarge,4,14,7.5,2 x 40 SSD,$0.239 per Hour
+c3.2xlarge,8,28,15,2 x 80 SSD,$0.478 per Hour
+c3.4xlarge,16,55,30,2 x 160 SSD,$0.956 per Hour
+c3.8xlarge,32,108,60,2 x 320 SSD,$1.912 per Hour
+g2.2xlarge,8,26,15,60 SSD,$0.702 per Hour
+g2.8xlarge,32,104,60,2 x 120 SSD,$2.808 per Hour
+r3.large,2,6.5,15,1 x 32 SSD,$0.185 per Hour
+r3.xlarge,4,13,30.5,1 x 80 SSD,$0.371 per Hour
+r3.2xlarge,8,26,61,1 x 160 SSD,$0.741 per Hour
+r3.4xlarge,16,52,122,1 x 320 SSD,$1.482 per Hour
+r3.8xlarge,32,104,244,2 x 320 SSD,$2.964 per Hour
+i2.xlarge,4,14,30.5,1 x 800 SSD,$0.938 per Hour
+i2.2xlarge,8,27,61,2 x 800 SSD,$1.876 per Hour
+i2.4xlarge,16,53,122,4 x 800 SSD,$3.751 per Hour
+i2.8xlarge,32,104,244,8 x 800 SSD,$7.502 per Hour
+m1.small,1,1,1.7,1 x 160,$0.047 per Hour
+m1.medium,1,2,3.75,1 x 410,$0.095 per Hour
+m1.large,2,4,7.5,2 x 420,$0.190 per Hour
+m1.xlarge,4,8,15,4 x 420,$0.379 per Hour
+c1.medium,2,5,1.7,1 x 350,$0.148 per Hour
+c1.xlarge,8,20,7,4 x 420,$0.592 per Hour
+m2.xlarge,2,6.5,17.1,1 x 420,$0.275 per Hour
+m2.2xlarge,4,13,34.2,1 x 850,$0.550 per Hour
+m2.4xlarge,8,26,68.4,2 x 840,$1.100 per Hour
+t1.micro,1,Variable,0.615,EBS Only,$0.025 per Hour
