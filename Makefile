@@ -40,7 +40,8 @@ vendor: $(GODEP)
 	find vendor/ -path '*/vendor' -type d | xargs -IX rm -r X # remove any nested vendor directories
 
 build:
-	@go build -ldflags "-X main.Version=$(cat VERSION)"
+	@GOOS=linux GOARCH=amd64 CGO_ENABLED=0 \
+	go build -ldflags "-X main.Version=$(cat VERSION)" -a -installsuffix cgo
 
 run: build
 	HOST=localhost PORT=8082 ./marathon-stats

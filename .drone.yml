@@ -25,3 +25,4 @@ publish:
       branch: master
 script:
 - make test
+- make build
