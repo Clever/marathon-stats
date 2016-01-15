@@ -1,0 +1,86 @@
+{
+	"ImportPath": "github.com/Clever/marathon-stats",
+	"GoVersion": "go1.5.2",
+	"Packages": [
+		"github.com/Clever/marathon-stats",
+		"github.com/Clever/marathon-stats/cost",
+		"github.com/Clever/marathon-stats/marathon",
+		"github.com/Clever/marathon-stats/mesos"
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/Clever/aws-cost-notifier/pricer",
+			"Comment": "d16-13-g022743a",
+			"Rev": "022743abfc25b3fca1b5c8c50b9a83a7a25f31c0"
+		},
+		{
+			"ImportPath": "github.com/Clever/pathio",
+			"Comment": "v2.0.0-23-gc9ab5fa",
+			"Rev": "c9ab5faa09d73e85523f3540db96295eef381a91"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/aws",
+			"Comment": "v1.0.8-9-g4e9785c",
+			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/endpoints",
+			"Comment": "v1.0.8-9-g4e9785c",
+			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/query",
+			"Comment": "v1.0.8-9-g4e9785c",
+			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/rest",
+			"Comment": "v1.0.8-9-g4e9785c",
+			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/restxml",
+			"Comment": "v1.0.8-9-g4e9785c",
+			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil",
+			"Comment": "v1.0.8-9-g4e9785c",
+			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/signer/v4",
+			"Comment": "v1.0.8-9-g4e9785c",
+			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/private/waiter",
+			"Comment": "v1.0.8-9-g4e9785c",
+			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+		},
+		{
+			"ImportPath": "github.com/aws/aws-sdk-go/service/s3",
+			"Comment": "v1.0.8-9-g4e9785c",
+			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+		},
+		{
+			"ImportPath": "github.com/getsentry/raven-go",
+			"Rev": "3966f3ab8333308d76b6cc83a29776a266bbdd92"
+		},
+		{
+			"ImportPath": "github.com/go-ini/ini",
+			"Comment": "v1.8.6",
+			"Rev": "afbd495e5aaea13597b5e14fe514ddeaa4d76fc3"
+		},
+		{
+			"ImportPath": "github.com/jmespath/go-jmespath",
+			"Comment": "0.2.2-2-gc01cf91",
+			"Rev": "c01cf91b011868172fdcd9f41838e80c9d716264"
+		},
+		{
+			"ImportPath": "gopkg.in/Clever/kayvee-go.v2",
+			"Comment": "v2.3.0",
+			"Rev": "8a687354073541f8b1593b6cd1061eb56e2077ee"
+		}
+	]
+}

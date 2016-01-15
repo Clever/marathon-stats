@@ -7,6 +7,9 @@ env:
   - MARATHON_PORT
   - LOG_MARATHON_TASKS
   - POLL_INTERVAL
+  - LAST_RAN_S3_PATH
+  - AWS_ACCESS_KEY_ID
+  - AWS_SECRET_ACCESS_KEY
 resources:
   cpu: .1
   max_mem: .1

@@ -1,17 +1,19 @@
-.PHONY: test build clean $(PKGS)
+.PHONY: test build clean vendor $(PKGS)
 SHELL := /bin/bash
-PKG = github.com/Clever/marathon-stats
-PKGS := $(PKG)
+PKGS := $(shell go list ./... | grep -v /vendor)
+
+GOVERSION := $(shell go version | grep 1.5)
+ifeq "$(GOVERSION)" ""
+  $(error must be running Go version 1.5)
+endif
+export GO15VENDOREXPERIMENT=1
 
 test: $(PKGS)
 
 $(GOPATH)/bin/golint:
 	@go get github.com/golang/lint/golint
 
-$(GOPATH)/bin/errcheck:
-	@go get github.com/kisielk/errcheck
-
-$(PKGS): $(GOPATH)/bin/golint $(GOPATH)/bin/errcheck
+$(PKGS): $(GOPATH)/bin/golint
 	@echo ""
 	@echo "FORMATTING $@..."
 	@go get -d -t $@
@@ -28,7 +30,14 @@ else
 	@echo "TESTING $@..."
 	@go test -v $@
 endif
-	@$(GOPATH)/bin/errcheck $@
+
+GODEP := $(GOPATH)/bin/godep
+$(GODEP):
+	go get -u github.com/tools/godep
+
+vendor: $(GODEP)
+	$(GODEP) save $(PKGS)
+	find vendor/ -path '*/vendor' -type d | xargs -IX rm -r X # remove any nested vendor directories
 
 build:
 	@go build -ldflags "-X main.Version=$(cat VERSION)"

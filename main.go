@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"os"
@@ -8,8 +9,11 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Clever/aws-cost-notifier/pricer"
+	"github.com/Clever/pathio"
 	kv "gopkg.in/Clever/kayvee-go.v2/logger"
 
+	"github.com/Clever/marathon-stats/cost"
 	"github.com/Clever/marathon-stats/marathon"
 	"github.com/Clever/marathon-stats/mesos"
 )
@@ -21,6 +25,7 @@ var (
 	mesosMasterHost    string
 	marathonMasterPort string
 	marathonMasterHost string
+	lastRanS3Path      string
 	logMarathonTasks   bool
 	pollInterval       time.Duration
 	containerHost      string
@@ -34,6 +39,7 @@ func init() {
 	mesosMasterPort = getEnv("MESOS_PORT")
 	marathonMasterHost = getEnv("MARATHON_HOST")
 	marathonMasterPort = getEnv("MARATHON_PORT")
+	lastRanS3Path = getEnv("LAST_RAN_S3_PATH")
 	var err error
 	logMarathonTasks, err = strconv.ParseBool(getEnv("LOG_MARATHON_TASKS"))
 	if err != nil {
@@ -76,7 +82,33 @@ func main() {
 	wg.Wait()
 }
 
+func fetchLastRunTime(s3Path string) (time.Time, error) {
+	reader, err := pathio.Reader(lastRanS3Path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var buf bytes.Buffer
+	_, err = buf.ReadFrom(reader)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return time.Parse(time.RFC3339, buf.String())
+}
+
 func initPollClients(wg *sync.WaitGroup) {
+	lastRan, err := fetchLastRunTime(lastRanS3Path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	prices, err := pricer.FromFile("./data/aws_prices.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+	costLogger := cost.NewLogger(prices, lastRan)
+
 	marathonClient := marathon.NewClient(fmt.Sprintf("%s:%s", marathonMasterHost, marathonMasterPort))
 	mesosClient := mesos.NewClient(fmt.Sprintf("%s:%s", mesosMasterHost, mesosMasterPort))
 
@@ -93,6 +125,12 @@ func initPollClients(wg *sync.WaitGroup) {
 			log.Fatal(err)
 		}
 		mesos.LogState(state)
+
+		costLogger.LogCost(apps.Apps, state)
+		err = pathio.Write(lastRanS3Path, []byte(costLogger.LastRan().Format(time.RFC3339)))
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	wg.Done()
