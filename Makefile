@@ -1,7 +1,6 @@
 .PHONY: test build clean vendor $(PKGS)
 SHELL := /bin/bash
-PKG = github.com/Clever/marathon-stats
-PKGS := $(PKG)
+PKGS := $(shell go list ./... | grep -v /vendor)
 
 GOVERSION := $(shell go version | grep 1.5)
 ifeq "$(GOVERSION)" ""
@@ -14,10 +13,7 @@ test: $(PKGS)
 $(GOPATH)/bin/golint:
 	@go get github.com/golang/lint/golint
 
-$(GOPATH)/bin/errcheck:
-	@go get github.com/kisielk/errcheck
-
-$(PKGS): $(GOPATH)/bin/golint $(GOPATH)/bin/errcheck
+$(PKGS): $(GOPATH)/bin/golint
 	@echo ""
 	@echo "FORMATTING $@..."
 	@go get -d -t $@
@@ -34,7 +30,6 @@ else
 	@echo "TESTING $@..."
 	@go test -v $@
 endif
-	@$(GOPATH)/bin/errcheck $@
 
 GODEP := $(GOPATH)/bin/godep
 $(GODEP):

@@ -2,7 +2,10 @@
 	"ImportPath": "github.com/Clever/marathon-stats",
 	"GoVersion": "go1.5.2",
 	"Packages": [
-		"github.com/Clever/marathon-stats"
+		"github.com/Clever/marathon-stats",
+		"github.com/Clever/marathon-stats/cost",
+		"github.com/Clever/marathon-stats/marathon",
+		"github.com/Clever/marathon-stats/mesos"
 	],
 	"Deps": [
 		{
