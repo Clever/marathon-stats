@@ -10,62 +10,62 @@
 	"Deps": [
 		{
 			"ImportPath": "github.com/Clever/aws-cost-notifier/pricer",
-			"Comment": "d16-13-g022743a",
-			"Rev": "022743abfc25b3fca1b5c8c50b9a83a7a25f31c0"
+			"Comment": "d18-7-gc0e4956",
+			"Rev": "c0e4956f08dec36f9e5e283e3e49066dc097692a"
 		},
 		{
 			"ImportPath": "github.com/Clever/pathio",
-			"Comment": "v2.0.0-23-gc9ab5fa",
-			"Rev": "c9ab5faa09d73e85523f3540db96295eef381a91"
+			"Comment": "v2.0.0-29-gdbee2a3",
+			"Rev": "dbee2a30e08c59d55002dfdb6b01b6b4e3f0b9e4"
 		},
 		{
 			"ImportPath": "github.com/aws/aws-sdk-go/aws",
-			"Comment": "v1.0.8-9-g4e9785c",
-			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+			"Comment": "v1.0.10-2-g2e7e7bb",
+			"Rev": "2e7e7bb0307d1a37a9d0ea5ec5ddc8f3d6e7f9aa"
 		},
 		{
 			"ImportPath": "github.com/aws/aws-sdk-go/private/endpoints",
-			"Comment": "v1.0.8-9-g4e9785c",
-			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+			"Comment": "v1.0.10-2-g2e7e7bb",
+			"Rev": "2e7e7bb0307d1a37a9d0ea5ec5ddc8f3d6e7f9aa"
 		},
 		{
 			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/query",
-			"Comment": "v1.0.8-9-g4e9785c",
-			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+			"Comment": "v1.0.10-2-g2e7e7bb",
+			"Rev": "2e7e7bb0307d1a37a9d0ea5ec5ddc8f3d6e7f9aa"
 		},
 		{
 			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/rest",
-			"Comment": "v1.0.8-9-g4e9785c",
-			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+			"Comment": "v1.0.10-2-g2e7e7bb",
+			"Rev": "2e7e7bb0307d1a37a9d0ea5ec5ddc8f3d6e7f9aa"
 		},
 		{
 			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/restxml",
-			"Comment": "v1.0.8-9-g4e9785c",
-			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+			"Comment": "v1.0.10-2-g2e7e7bb",
+			"Rev": "2e7e7bb0307d1a37a9d0ea5ec5ddc8f3d6e7f9aa"
 		},
 		{
 			"ImportPath": "github.com/aws/aws-sdk-go/private/protocol/xml/xmlutil",
-			"Comment": "v1.0.8-9-g4e9785c",
-			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+			"Comment": "v1.0.10-2-g2e7e7bb",
+			"Rev": "2e7e7bb0307d1a37a9d0ea5ec5ddc8f3d6e7f9aa"
 		},
 		{
 			"ImportPath": "github.com/aws/aws-sdk-go/private/signer/v4",
-			"Comment": "v1.0.8-9-g4e9785c",
-			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+			"Comment": "v1.0.10-2-g2e7e7bb",
+			"Rev": "2e7e7bb0307d1a37a9d0ea5ec5ddc8f3d6e7f9aa"
 		},
 		{
 			"ImportPath": "github.com/aws/aws-sdk-go/private/waiter",
-			"Comment": "v1.0.8-9-g4e9785c",
-			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+			"Comment": "v1.0.10-2-g2e7e7bb",
+			"Rev": "2e7e7bb0307d1a37a9d0ea5ec5ddc8f3d6e7f9aa"
 		},
 		{
 			"ImportPath": "github.com/aws/aws-sdk-go/service/s3",
-			"Comment": "v1.0.8-9-g4e9785c",
-			"Rev": "4e9785c83939d32836b79986730a587ff50fdc5f"
+			"Comment": "v1.0.10-2-g2e7e7bb",
+			"Rev": "2e7e7bb0307d1a37a9d0ea5ec5ddc8f3d6e7f9aa"
 		},
 		{
 			"ImportPath": "github.com/getsentry/raven-go",
-			"Rev": "3966f3ab8333308d76b6cc83a29776a266bbdd92"
+			"Rev": "1cc47a9463b90f246a0503d4c2e9a55c9459ced3"
 		},
 		{
 			"ImportPath": "github.com/go-ini/ini",

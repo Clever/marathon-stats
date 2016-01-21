@@ -1,13 +1,12 @@
 package pricer
 
 import (
-	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"math"
-	"os"
-	"strconv"
-	"strings"
 	"time"
+
+	"github.com/Clever/pathio"
 )
 
 type Pricer interface {
@@ -21,29 +20,16 @@ func FromMap(prices map[string]float64) (Pricer, error) {
 	return pricer(prices), nil
 }
 
-func FromFile(path string) (Pricer, error) {
-	prices := make(pricer)
+func FromS3(path string) (Pricer, error) {
+	prices := pricer(map[string]float64{})
 
-	f, err := os.Open(path)
-	defer f.Close()
+	reader, err := pathio.Reader(path)
 	if err != nil {
-		return nil, err
+		return prices, err
 	}
 
-	r := csv.NewReader(f)
-	lines, err := r.ReadAll()
-	if err != nil {
-		return nil, err
-	}
-
-	for _, line := range lines {
-		instance := line[0]              // first field is name
-		priceString := line[len(line)-1] // last field is price/hour
-		price, err := strconv.ParseFloat(strings.Trim(priceString, "$ per Hour"), 64)
-		if err != nil {
-			return nil, err
-		}
-		prices[instance] = price
+	if err := json.NewDecoder(reader).Decode(&prices); err != nil {
+		return prices, err
 	}
 
 	return prices, nil
