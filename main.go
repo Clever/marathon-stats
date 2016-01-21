@@ -103,7 +103,7 @@ func initPollClients(wg *sync.WaitGroup) {
 		log.Fatal(err)
 	}
 
-	prices, err := pricer.FromFile("./data/aws_prices.csv")
+	prices, err := pricer.FromS3("s3://infra-accountant/aws-instance-prices.json")
 	if err != nil {
 		log.Fatal(err)
 	}
