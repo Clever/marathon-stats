@@ -127,6 +127,7 @@ func initPollClients(wg *sync.WaitGroup) {
 		}
 		mesos.LogState(state)
 
+		// Log cost-stats once every 10mins to keep infra.aws_container_cost (redshift db) smallish
 		if num%10 == 0 {
 			costLogger.LogCost(apps.Apps, state)
 			err = pathio.Write(lastRanS3Path, []byte(costLogger.LastRan().Format(time.RFC3339)))
