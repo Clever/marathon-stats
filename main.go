@@ -112,6 +112,7 @@ func initPollClients(wg *sync.WaitGroup) {
 	marathonClient := marathon.NewClient(fmt.Sprintf("%s:%s", marathonMasterHost, marathonMasterPort))
 	mesosClient := mesos.NewClient(fmt.Sprintf("%s:%s", mesosMasterHost, mesosMasterPort))
 
+	num := 0
 	ticker := time.Tick(pollInterval)
 	for _ = range ticker {
 		apps, err := marathonClient.GetApps()
@@ -126,11 +127,15 @@ func initPollClients(wg *sync.WaitGroup) {
 		}
 		mesos.LogState(state)
 
-		costLogger.LogCost(apps.Apps, state)
-		err = pathio.Write(lastRanS3Path, []byte(costLogger.LastRan().Format(time.RFC3339)))
-		if err != nil {
-			log.Fatal(err)
+		// Log cost-stats once every 10mins to keep infra.aws_container_cost (redshift db) smallish
+		if num%10 == 0 {
+			costLogger.LogCost(apps.Apps, state)
+			err = pathio.Write(lastRanS3Path, []byte(costLogger.LastRan().Format(time.RFC3339)))
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
+		num++
 	}
 
 	wg.Done()
