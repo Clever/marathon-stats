@@ -14,7 +14,9 @@ notify:
 publish:
   catapult:
     url: $$catapult_url
-    application: "marathon-stats"
+    applications:
+      - "marathon-stats-dev"
+      - "marathon-stats-prod"
   docker:
     docker_host: $$docker_server
     email: $$docker_email

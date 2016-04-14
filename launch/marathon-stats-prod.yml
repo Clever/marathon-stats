@@ -1,0 +1,19 @@
+run:
+  type: docker
+env:
+  - MESOS_HOST
+  - MESOS_PORT
+  - MARATHON_HOST
+  - MARATHON_PORT
+  - LOG_MARATHON_TASKS
+  - POLL_INTERVAL
+  - LAST_RAN_S3_PATH
+  - AWS_ACCESS_KEY_ID
+  - AWS_SECRET_ACCESS_KEY
+resources:
+  cpu: .1
+  max_mem: .1
+expose:                # list of ports to expose
+  - name: http         # identifier for this port mapping
+    port: 80           # port to map to inside the container
+    bind: 80           # NOTE: value ignored by mesos
