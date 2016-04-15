@@ -1,3 +1,6 @@
+# Why we need two versions:
+# One to get stats from the prod-cluster and one to get stats from dev-cluster
+# Both need to run in prod-cluster to ensure data is going to production redshift db
 run:
   type: docker
 env:
