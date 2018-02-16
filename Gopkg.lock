@@ -2,12 +2,6 @@
 
 
 [[projects]]
-  branch = "master"
-  name = "github.com/Clever/marathon-stats"
-  packages = ["marathon","mesos"]
-  revision = "2c4c6793a009a40aef480e34651eaad459d419a5"
-
-[[projects]]
   name = "github.com/getsentry/raven-go"
   packages = ["."]
   revision = "1cc47a9463b90f246a0503d4c2e9a55c9459ced3"
@@ -21,6 +15,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "7a6caed705b52e32f55aec239ee7cf1e46488ce85f2b815e79c51aef79379ed0"
+  inputs-digest = "ce64f42e9d7b6414c7338d84630194649b020c8c8f299072331dddb33756e4fc"
   solver-name = "gps-cdcl"
   solver-version = 1

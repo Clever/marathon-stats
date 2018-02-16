@@ -22,9 +22,5 @@
 
 
 [[constraint]]
-  branch = "master"
-  name = "github.com/Clever/marathon-stats"
-
-[[constraint]]
   name = "gopkg.in/Clever/kayvee-go.v2"
   version = "2.3.0"
