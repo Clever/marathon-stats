@@ -19,5 +19,5 @@ run: build
 	HOST=localhost PORT=8082 ./marathon-stats
 
 
-install_deps: golang-dep-vendor-deps
-	$(call golang-dep-vendor)
+install_deps:
+	go mod vendor
