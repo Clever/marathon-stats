@@ -1,6 +1,6 @@
 module github.com/Clever/marathon-stats
 
-go 1.13
+go 1.16
 
 require (
 	github.com/getsentry/raven-go v0.0.0-20160113000659-1cc47a9463b9 // indirect
