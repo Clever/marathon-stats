@@ -1,3 +1,7 @@
+# Notice
+
+This repo is no longer maintained by Clever.
+
 # marathon-stats
 
 ## Overview
